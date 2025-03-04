@@ -1,0 +1,41 @@
+body {
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+}
+.divider {
+  width: 95vw;
+  height: 2px;
+  background-color: #ccc;
+  border: none;
+  margin: 20px auto; /* 让横线水平居中 */
+}
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choice_tab{
+  margin: 10px auto; /* 让横线水平居中 */
+  width: 95vw;
+  padding: 10px;
+  border: 1px solid #ddd;
+  /*margin: 5px 0;*/
+  border-radius: 20px;
+  background: #f9f9f9;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+/* 按钮悬停效果 */
+.btn:hover {
+  background: #0056b3;
+}
