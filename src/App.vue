@@ -54,5 +54,5 @@ header {
 }
 </style>
 <!--<script setup lang="ts">-->
-<!--import MainPage from "@/components/mainpage/MainPage.vue";-->
+<!--import MainPage from "@/components/page/MainPage.vue";-->
 <!--</script>-->

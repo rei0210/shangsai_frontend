@@ -6,24 +6,37 @@ body {
   height: 2px;
   background-color: #ccc;
   border: none;
-  margin: 20px auto; /* 让横线水平居中 */
+  margin: 15px auto; /* 让横线水平居中 */
 }
 .title{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.scrollable-list {
+  list-style-type: none;
+  padding: 0;
+  max-height: 50vh; /* 最大高度 */
+  overflow-y: auto; /* 允许垂直滚动 */
 
+}
 .choice_tab{
   margin: 10px auto; /* 让横线水平居中 */
   width: 95vw;
   padding: 10px;
   border: 1px solid #ddd;
   /*margin: 5px 0;*/
-  border-radius: 20px;
+  border-radius:8px;
   background: #f9f9f9;
 }
-
+.main_btn_group{
+ display: flex;
+  gap: 20px; /* 按钮之间的间距 */
+  justify-content: center; /* 居中排列 */
+  /*margin-top: 20px; */
+  margin:20px auto;
+  width: 95vw;
+}
 .btn {
   padding: 10px 20px;
   font-size: 16px;
@@ -33,6 +46,8 @@ body {
   background: #007bff;
   color: white;
   transition: background 0.3s ease;
+  height: 40px;
+  width: 50vw;
 }
 
 /* 按钮悬停效果 */
