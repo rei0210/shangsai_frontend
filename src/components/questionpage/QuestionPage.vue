@@ -2,6 +2,14 @@
 
 import {ref} from "vue";
 
+const router = useRouter();
+
+const next_question = (targetpage) => {
+
+};
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage });
+};
 const questionnaire=ref([
     {
       question:'How was your experience on today\'s class?',
@@ -30,6 +38,7 @@ const selectItem = (index) => {
 };
 
 import { onMounted, onUnmounted } from 'vue';
+import {useRouter} from "vue-router";
 
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
@@ -44,7 +53,7 @@ onUnmounted(() => {
 
 <template>
   <div class="course_header">
-    <button class="question_back_btn"><img src="@/assets/icon/back_btn_questionnaire.png"/></button>
+    <button class="question_back_btn" @click="goToPage('')"><img src="@/assets/icon/back_btn_questionnaire.png"/></button>
     <div><h2 class="green">Course Name</h2></div>
   </div>
   <div>

@@ -1,6 +1,11 @@
 <script setup>
 import {ref} from "vue";
 
+const router = useRouter();
+
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage, query: courseList[selectedIndex] });
+};
 const courseList = ref([
   "Mathematics 001",
   "Physicsal Science 001",
@@ -15,6 +20,7 @@ const selectItem = (index) => {
 };
 
 import { onMounted, onUnmounted } from 'vue';
+import {useRouter} from "vue-router";
 
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
@@ -58,7 +64,7 @@ onUnmounted(() => {
   <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button id="btn1" @click="">VIEW HISTORY</button>
-    <button id="btn2" @click="">WRITE FEEDBACK</button>
+    <button id="btn2" @click="goToPage('question')">WRITE FEEDBACK</button>
 
   </div>
 </template>

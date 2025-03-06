@@ -1,6 +1,10 @@
 <script setup>
 import {ref} from "vue";
+const router = useRouter();
 
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage });
+};
 const report_list=ref([
     {
       dimension:'understanding',
@@ -45,6 +49,7 @@ const report_list=ref([
 
 ])
 import { onMounted, onUnmounted } from 'vue';
+import {useRouter} from "vue-router";
 
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
@@ -60,7 +65,7 @@ onUnmounted(() => {
 <template>
 <div class="report_header">
   <div><h2>Feedback Report</h2></div>
-  <button class="report_back_btn"><img src="@/assets/icon/report_btn.png"/></button>
+  <button @click="goToPage('')" class="report_back_btn"><img src="@/assets/icon/report_btn.png"/></button>
   </div>
   <div>
      <hr class="divider"/>
