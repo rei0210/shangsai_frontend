@@ -3,8 +3,8 @@ import {ref} from "vue";
 
 const router = useRouter();
 
-const goToPage = (targetpage) => {
-  router.push({ path: '/'+targetpage, query: courseList[selectedIndex] });
+const goToPage = (targetpage,params) => {
+  router.push({ name: targetpage, params: params });
 };
 const courseList = ref([
   "Mathematics 001",
@@ -64,7 +64,7 @@ onUnmounted(() => {
   <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button id="btn1" @click="">VIEW HISTORY</button>
-    <button id="btn2" @click="goToPage('question')">WRITE FEEDBACK</button>
+    <button id="btn2" @click="goToPage('question',{'course':courseList[selectedIndex]})">WRITE FEEDBACK</button>
 
   </div>
 </template>

@@ -25,12 +25,26 @@ const questionnaire=ref([
 ])
 
 const current_question_index=ref(0)
+const current_question=ref(
+    {
+      question:'How was your experience on today\'s class?',
+      choices:[
+          'Very good',
+          'Good',
+          'Fair',
+          'Poor'
 
+      ]
+
+    })
 const course=ref(null)
 
 const answer_list=ref([])
 
 const select_answer_index=ref(null)
+
+// 获取当前路由对象
+const route = useRoute();
 
 
 const selectItem = (index) => {
@@ -38,28 +52,43 @@ const selectItem = (index) => {
 };
 
 import { onMounted, onUnmounted } from 'vue';
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {getQuestion} from "@/api/questionApi.js";
+function getCourse(){
+  console.log("getCourse!!!",route.params)
+  course.value=route.params.course || 'Course Name';
+}
+function getCurrentQuestion(){
+  let q=getQuestion()
+  console.log(q)
+}
+function submitAnswer(){
 
+}
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
   document.body.style.overflow = 'hidden';
+  getCourse()
+  getCurrentQuestion()
 });
 
 onUnmounted(() => {
   document.documentElement.style.overflow = ''; // 组件卸载后恢复
   document.body.style.overflow = '';
 });
+
+
 </script>
 
 <template>
   <div class="course_header">
     <button class="question_back_btn" @click="goToPage('')"><img src="@/assets/icon/back_btn_questionnaire.png"/></button>
-    <div><h2 class="green">Course Name</h2></div>
+    <div><h2 class="green">{{course}}</h2></div>
   </div>
   <div>
     <hr class="divider"/>
   </div>
-  <div id="question">{{questionnaire[current_question_index].question}}</div>
+  <div id="question">{{current_question.question}}</div>
   <div>
     <ul class="scrollable-list" id="choice_list">
       <li class="choice_tab"
