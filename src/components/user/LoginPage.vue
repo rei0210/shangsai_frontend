@@ -1,7 +1,13 @@
 <script setup>
 import {onMounted, onUnmounted, ref} from "vue";
 import login from "@/api/userApi.js";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
+
+const goToPage = (targetpage,params) => {
+  router.push({ name: targetpage,params:params });
+};
 
 const userInfo=ref({
   userName:'',

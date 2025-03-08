@@ -53,23 +53,33 @@ const selectItem = (index) => {
 
 import { onMounted, onUnmounted } from 'vue';
 import {useRoute, useRouter} from "vue-router";
-import {getQuestion} from "@/api/questionApi.js";
+import {getQuestion, postAnswer} from "@/api/questionApi.js";
 function getCourse(){
   console.log("getCourse!!!",route.params)
   course.value=route.params.course || 'Course Name';
 }
-function getCurrentQuestion(){
-  let q=getQuestion()
-  console.log(q)
-}
-function submitAnswer(){
+const loadQuestion = async () => {
+  try {
+    let q = await getQuestion();  // 等待 `getQuestion()` 返回数据
+    console.log(q);
 
+    current_question.value.question = q.data.question;
+    current_question.value.choices = q.data.choices;
+    current_question.value.progress = q.data.progress;
+  } catch (error) {
+    console.error("获取问题失败:", error);
+  }
+};
+async function submitAnswer (){
+  console.log("select",current_question.value.choices[select_answer_index.value])
+
+  postAnswer(current_question.value.choices[select_answer_index.value])
 }
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
   document.body.style.overflow = 'hidden';
   getCourse()
-  getCurrentQuestion()
+  loadQuestion()
 });
 
 onUnmounted(() => {
@@ -104,7 +114,7 @@ onUnmounted(() => {
    <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button class="btn"id="btn1" @click="">BACK</button>
-    <button  class="btn" id="btn2" @click="">NEXT</button>
+    <button  class="btn" id="btn2" @click="submitAnswer">NEXT</button>
 
   </div>
 </template>
