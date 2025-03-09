@@ -1,16 +1,17 @@
 <script setup>
 import {onMounted, onUnmounted, ref} from "vue";
 import login from "@/api/userApi.js";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const router = useRouter();
+const route=useRoute()
 
 const goToPage = (targetpage,params) => {
   router.push({ name: targetpage,params:params });
 };
 
 const userInfo=ref({
-  userName:'',
+  username:'',
   password:''
 })
 
@@ -24,8 +25,11 @@ onUnmounted(() => {
   document.body.style.overflow = '';
 });
 
-function userLogin(userInfo){
-  console.log(login(userInfo))
+function userLogin(userInfo1){
+  console.log(login(userInfo1))
+  localStorage.setItem("userInfo",JSON.stringify(userInfo1))
+  // console.log(userInfo1)
+  goToPage('main',null)
 }
 </script>
 
