@@ -4,27 +4,21 @@ import {ref} from "vue";
 
 const router = useRouter();
 
+const isLoading = ref(false);
+
+const currentNumOfQuestion=ref(0)
+
+const isLastQuestion=ref(false)
+
 const next_question = (targetpage) => {
 
 };
 const goToPage = (targetpage) => {
   router.push({ path: '/'+targetpage });
 };
-const questionnaire=ref([
-    {
-      question:'How was your experience on today\'s class?',
-      choices:[
-          'Very good',
-          'Good',
-          'Fair',
-          'Poor'
-
-      ]
-
-    }
-])
-
-const current_question_index=ref(0)
+const goToPageWithParams=(targetPage,params)=>{
+   router.push({ name: targetPage,params:params });
+}
 const current_question=ref(
     {
       question:'How was your experience on today\'s class?',
@@ -34,7 +28,9 @@ const current_question=ref(
           'Fair',
           'Poor'
 
-      ]
+      ],
+      progress:0,
+      isLastQuestion:false
 
     })
 const course=ref(null)
@@ -53,7 +49,7 @@ const selectItem = (index) => {
 
 import { onMounted, onUnmounted } from 'vue';
 import {useRoute, useRouter} from "vue-router";
-import {getQuestion, postAnswer} from "@/api/questionApi.js";
+import {getQuestion, postAnswer, resetQuestionnaire} from "@/api/questionApi.js";
 function getCourse(){
   console.log("getCourse!!!",route.params)
   course.value=route.params.course || 'Course Name';
@@ -66,14 +62,42 @@ const loadQuestion = async () => {
     current_question.value.question = q.data.question;
     current_question.value.choices = q.data.choices;
     current_question.value.progress = q.data.progress;
+    current_question.value.isLastQuestion=q.data.isLastQuestion
+    console.log(current_question.value)
   } catch (error) {
     console.error("获取问题失败:", error);
   }
 };
-async function submitAnswer (){
-  console.log("select",current_question.value.choices[select_answer_index.value])
-
-  postAnswer(current_question.value.choices[select_answer_index.value])
+async function submitAnswer() {
+  isLoading.value = true;
+  console.log("select", current_question.value.choices[select_answer_index.value])
+  try {
+    let q = await postAnswer(current_question.value.choices[select_answer_index.value])
+    console.log("answer", q);
+    if(q.data.is_last_question){
+      goToPageWithParams('thanks',q.data.thank_you_message)
+      return
+    }
+    current_question.value.question = q.data.question
+    current_question.value.choices = q.data.choices
+    current_question.value.progress = q.data.progress
+    current_question.value.isLastQuestion=q.data.isLastQuestion
+    select_answer_index.value = null
+  }catch (error){
+    console.error("获取问题失败:", error);
+  }finally {
+    isLoading.value=false
+    currentNumOfQuestion.value+=1
+    // console.log("sshshhshssh")
+    //  resetQuestionnaire()
+  }
+}
+function generateReport(){
+  console.log("student report")
+}
+function returnToMain(){
+  goToPage('')
+  resetQuestionnaire()
 }
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
@@ -92,7 +116,7 @@ onUnmounted(() => {
 
 <template>
   <div class="course_header">
-    <button class="question_back_btn" @click="goToPage('')"><img src="@/assets/icon/back_btn_questionnaire.png"/></button>
+    <button class="question_back_btn" @click="returnToMain"><img src="@/assets/icon/back_btn_questionnaire.png"/></button>
     <div><h2 class="green">{{course}}</h2></div>
   </div>
   <div>
@@ -103,19 +127,22 @@ onUnmounted(() => {
     <ul class="scrollable-list" id="choice_list">
       <li class="choice_tab"
           id="question_choice"
-          v-for="(choice, index) in questionnaire[current_question_index].choices"
+          v-for="(choice, index) in current_question.choices"
           :key="index"
           :class="{ selected: select_answer_index === index }"
           @click="selectItem(index)">
-        {{ questionnaire[current_question_index].choices[index] }}
+        {{ choice }}
       </li>
     </ul>
   </div>
    <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button class="btn"id="btn1" @click="">BACK</button>
-    <button  class="btn" id="btn2" @click="submitAnswer">NEXT</button>
-
+    <button v-if="!current_question.isLastQuestion" class="btn" id="btn2" @click="submitAnswer">NEXT</button>
+     <button v-else class="btn" id="btn3" @click="generateReport()">FINISH</button>
+  <div v-if="isLoading" class="overlay">
+      <div class="loader"></div>
+    </div>
   </div>
 </template>
 
@@ -205,10 +232,25 @@ ul{
   transition: background 0.3s ease;
 
 }
+#btn3{
+  /*width: 130px;*/
+  /*padding: 10px 20px;*/
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgb(129, 211, 248);
+  color: white;
+  transition: background 0.3s ease;
+
+}
 #btn1:hover {
   background: rgba(95, 111, 167, 0.5);
 }
 #btn2:hover {
   background: rgba(128, 128, 255, 0.5);
+}
+#btn3:hover {
+  background: rgba(129, 211, 248, 0.5);
 }
 </style>

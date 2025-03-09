@@ -12,3 +12,9 @@ export const postAnswer=(answer)=>{
     });
 }
 
+export const resetQuestionnaire=()=>{
+    return axios.post('/api/reset_survey',null,{
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+    });
+}

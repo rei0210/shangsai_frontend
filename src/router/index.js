@@ -3,11 +3,12 @@ import MainPage from "@/components/mainpage/MainPage.vue";
 import QuestionPage from "@/components/questionpage/QuestionPage.vue";
 import ReportPage from "@/components/report/ReportPage.vue";
 import LoginPage from "@/components/user/LoginPage.vue";
+import ThankPage from "@/components/questionpage/ThankPage.vue";
 
 
 export const routes=[
     {
-        path:'/',
+        path:'/:username?',
         name:'main',
         component: MainPage ,
         meta:{requiresAuth:false,keepalive:false}
@@ -28,6 +29,12 @@ export const routes=[
         path:'/login',
         name:'login',
         component:LoginPage,
+        meta:{requiresAuth: false,keepalive: false}
+    },
+    {
+        path:'/thanks:message?',
+        name:'thanks',
+        component:ThankPage,
         meta:{requiresAuth: false,keepalive: false}
     }
 ]

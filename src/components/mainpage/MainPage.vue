@@ -2,6 +2,7 @@
 import {ref} from "vue";
 
 const router = useRouter();
+const route=useRoute()
 
 const goToPage = (targetpage,params) => {
   router.push({ name: targetpage, params: params });
@@ -14,17 +15,20 @@ const courseList = ref([
 
 ]);
 const selectedIndex = ref(null); // 存储当前选中的索引
-
+const username=ref('Student')
 const selectItem = (index) => {
   selectedIndex.value = index; // 更新选中的索引
 };
 
 import { onMounted, onUnmounted } from 'vue';
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
   document.body.style.overflow = 'hidden';
+  // console.log(route.params)
+  // console.log(localStorage.getItem('userInfo'))
+  username.value=JSON.parse(localStorage.getItem('userInfo')).username||'Student'
 });
 
 onUnmounted(() => {
@@ -38,7 +42,7 @@ onUnmounted(() => {
   <div class="main_header">
 <!--     <h1 class="green">This is the main page</h1>-->
     <img src="@/assets/img/avatar1.png" alt="Logo" class="header_logo" style="max-width: 150px;max-height: 150px">
-    <div><h1>Student</h1><h2>WN 2025</h2></div>
+    <div><h1>{{username}}</h1><h2>WN 2025</h2></div>
 
   </div>
   <div class="header_divider">
