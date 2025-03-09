@@ -6,9 +6,12 @@ import {useRoute, useRouter} from "vue-router";
 const router = useRouter();
 const route=useRoute()
 
-const goToPage = (targetpage,params) => {
-  router.push({ name: targetpage,params:params });
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage });
 };
+const goToPageWithParams=(targetPage,params)=>{
+   router.push({ name: targetPage,params:params });
+}
 
 const userInfo=ref({
   username:'',
@@ -29,7 +32,7 @@ function userLogin(userInfo1){
   console.log(login(userInfo1))
   localStorage.setItem("userInfo",JSON.stringify(userInfo1))
   // console.log(userInfo1)
-  goToPage('main',null)
+  goToPage('')
 }
 </script>
 

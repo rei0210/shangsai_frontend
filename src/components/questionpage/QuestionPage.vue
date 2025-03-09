@@ -75,7 +75,7 @@ async function submitAnswer() {
     let q = await postAnswer(current_question.value.choices[select_answer_index.value])
     console.log("answer", q);
     if(q.data.is_last_question){
-      goToPageWithParams('thanks',{'message':q.data.thank_you_message})
+      goToPageWithParams('thanks',{'message':q.data.thank_you_message,'course':course.value})
       return
     }
     current_question.value.question = q.data.question

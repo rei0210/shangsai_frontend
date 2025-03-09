@@ -32,7 +32,7 @@ export const routes=[
         meta:{requiresAuth: false,keepalive: false}
     },
     {
-        path:'/thanks:message?',
+        path:'/thanks:message?course?',
         name:'thanks',
         component:ThankPage,
         meta:{requiresAuth: false,keepalive: false}

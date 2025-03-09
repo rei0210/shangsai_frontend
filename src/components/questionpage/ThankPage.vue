@@ -1,14 +1,32 @@
 <script setup>
 import {onMounted, onUnmounted, ref} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {resetQuestionnaire} from "@/api/questionApi.js";
+import {getStudentReport} from "@/api/reportApi.js";
 
+const router=useRouter()
 const message=ref('Thank you for taking the questionnare')
 const route=useRoute()
+const course=ref('Course')
 
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage });
+};
+const goToPageWithParams=(targetPage,params)=>{
+   router.push({ name: targetPage,params:params });
+}
+function returnToMain(){
+  resetQuestionnaire()
+  goToPage('')
+}
+function goToReport(){
+  console.log('report',getStudentReport());
+}
 onMounted(() => {
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
   document.body.style.overflow = 'hidden';
   message.value=route.params.message
+  course.value=route.params.course
 });
 
 onUnmounted(() => {
@@ -22,8 +40,8 @@ onUnmounted(() => {
     <div id="thanks_card">
       <div class="message">{{message}}</div>
       <div class="main_btn_group">
-        <button class="btn"id="btn_return" @click="">Return</button>
-        <button  class="btn" id="btn_report" @click="">View Report</button>
+        <button class="btn"id="btn_return" @click="returnToMain">Return</button>
+        <button  class="btn" id="btn_report" @click="goToReport">View Report</button>
 
       </div>
     </div>
@@ -56,7 +74,7 @@ onUnmounted(() => {
 
 }
 #btn_report {
-  background-color: rgb(220, 220, 220);
+  background-color: rgba(4, 182, 106, 0.7);
   color: black;
   margin: 20px auto;
   height: auto;
@@ -71,6 +89,9 @@ onUnmounted(() => {
 }
 #btn_return:hover {
   background-color: rgb(200, 200, 200);
+}
+#btn_report:hover {
+  background-color: rgba(4, 182, 106, 0.5);
 }
 .message {
   flex-grow: 1; /* 让 h1 占据足够空间 */

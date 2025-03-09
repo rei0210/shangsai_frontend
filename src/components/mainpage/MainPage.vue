@@ -4,9 +4,15 @@ import {ref} from "vue";
 const router = useRouter();
 const route=useRoute()
 
-const goToPage = (targetpage,params) => {
-  router.push({ name: targetpage, params: params });
+// const goToPage = (targetpage,params) => {
+//   router.push({ name: targetpage, params: params });
+// };
+const goToPage = (targetpage) => {
+  router.push({ path: '/'+targetpage });
 };
+const goToPageWithParams=(targetPage,params)=>{
+   router.push({ name: targetPage,params:params });
+}
 const courseList = ref([
   "Mathematics 001",
   "Physicsal Science 001",
@@ -24,6 +30,12 @@ import { onMounted, onUnmounted } from 'vue';
 import {useRoute, useRouter} from "vue-router";
 
 onMounted(() => {
+  // localStorage.removeItem('userInfo')
+  // console.log(localStorage.getItem('userInfo'),"shshshsh");
+  if(localStorage.getItem('userInfo')===null){
+    goToPage('login')
+    return;
+  }
   document.documentElement.style.overflow = 'hidden'; // 禁用滚动
   document.body.style.overflow = 'hidden';
   // console.log(route.params)
@@ -68,7 +80,7 @@ onUnmounted(() => {
   <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button id="btn1" @click="">VIEW HISTORY</button>
-    <button id="btn2" @click="goToPage('question',{'course':courseList[selectedIndex]})">WRITE FEEDBACK</button>
+    <button id="btn2" @click="goToPageWithParams('question',{'course':courseList[selectedIndex]})">WRITE FEEDBACK</button>
 
   </div>
 </template>
