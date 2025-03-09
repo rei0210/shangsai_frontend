@@ -75,7 +75,7 @@ async function submitAnswer() {
     let q = await postAnswer(current_question.value.choices[select_answer_index.value])
     console.log("answer", q);
     if(q.data.is_last_question){
-      goToPageWithParams('thanks',q.data.thank_you_message)
+      goToPageWithParams('thanks',{'message':q.data.thank_you_message})
       return
     }
     current_question.value.question = q.data.question
@@ -138,8 +138,8 @@ onUnmounted(() => {
    <div class="main_btn_group">
 <!--<h1 class="title">This is the main page</h1>-->
     <button class="btn"id="btn1" @click="">BACK</button>
-    <button v-if="!current_question.isLastQuestion" class="btn" id="btn2" @click="submitAnswer">NEXT</button>
-     <button v-else class="btn" id="btn3" @click="generateReport()">FINISH</button>
+    <button class="btn" id="btn2" @click="submitAnswer">NEXT</button>
+<!--     <button v-else class="btn" id="btn3" @click="generateReport()">FINISH</button>-->
   <div v-if="isLoading" class="overlay">
       <div class="loader"></div>
     </div>

@@ -1,6 +1,8 @@
 body {
   font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+
 }
+
 .divider {
   width: 95vw;
   height: 2px;
@@ -36,6 +38,18 @@ body {
   /*margin-top: 20px; */
   margin:20px auto;
   width: 95vw;
+}
+.parent_container {
+  display: flex;
+  justify-content: center;  /* 水平居中 */
+  align-items: center;      /* 垂直居中 */
+  height: 100vh;           /* 让它占满整个屏幕高度 */
+  width: 100vw;            /* 确保它占满整个屏幕宽度 */
+  background-color: rgba(169, 231, 209, 0.5);
+  margin: 0;
+  padding: 0;
+
+
 }
 .btn {
   padding: 10px 20px;
@@ -81,4 +95,16 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.card{
+  width: 50vw;
+  height: 50vh;
+  background-color: rgb(255, 255, 255);
+  padding:0;
+  box-shadow:
+            2.5px 12.5px 10px rgba(0, 0, 0, 0.05),
+            41.8px 41.8px 33.4px rgba(0, 0, 0, 0.03),
+            50px 50px 90px rgba(0, 0, 0, 0.01);
+
 }
